@@ -1,0 +1,304 @@
+#let resume-entry(title: "", description_left: "", description_right: "", date: "") = {
+  pad(
+    left: 1em,
+    grid(
+      columns: (1fr, auto),
+      gutter: 0.8em,
+      align(left)[
+        #text(weight: "bold")[#title]
+        #if description_left != "" [
+          #linebreak()
+          #text(size: 7pt)[#description_left]
+        ]
+      ],
+      align(right)[
+        #if description_right != "" [#text(size: 7pt)[#description_right]]
+        #linebreak()
+        #text(size: 7pt, fill: gray)[#date]
+      ]
+    )
+  )
+  v(0.1em)
+}
+
+#let resume-item(body) = {
+  pad(left: 1em, body)
+}
+
+#let doc-template(
+  author: (),
+  date: "",
+  body
+) = {
+  set page(margin: (top: 7.5em, rest: 2cm))
+  // Header section
+  grid(
+    columns: (1fr, auto),
+    align(left)[
+      #text(weight: "bold", size: 14pt, font: "Jinhua Serif C")[#author.name]
+      #v(-0.8em)
+      #set text(size: 7pt)
+      #if author.email != none [邮箱: #author.email ]
+      #if author.phone != none [ · 电话: #author.phone ]
+      #if author.github != none [ · GitHub: #link("https://github.com/" + author.github)[github.com/#author.github] ]
+      #if author.homepage != none [ · 主页: #link(author.homepage)[#author.homepage] ]
+    ],
+    align(right)[#date]
+  )
+  v(0.0em)
+  body
+}
+
+#set text(
+  // font: "FZLanTingHei-L-GBK",
+  font: "Jinhua Serif C",
+  size: 9pt
+)
+
+#show: doc-template.with(
+  author: (
+    name: "陆家林",
+    email: "luxxxlucy@gmail.com",
+    phone: "(+1) 778 865 6323",
+    github: "LuxxxLucy",
+    homepage: "https://luxxxlucy.github.io",
+  ),
+)
+
+#set par(
+  leading: 0.5em,
+  justify: true
+)
+
+#show heading: it => {
+  set text(size: 10pt, font: "Jinhua Serif C")
+  v(0.4em)
+  it
+  v(-0.8em)
+  line(length: 100%, stroke: 0.5pt)
+  v(0.2em)
+}
+
+#let timeline-item(date, content) = {
+  grid(
+    columns: (5.5em, 1fr),
+    gutter: 1em,
+    text(size: 7pt, fill: gray)[#date],
+    content
+  )
+}
+
+#let bold-title(content) = {
+  text(weight: "bold")[#content]
+}
+
+#let small-text(content) = {
+  text(size: 7pt)[#content]
+}
+
+= 教育
+
+#resume-item[
+  #grid(
+    columns: (1fr, 1fr),
+    gutter: 1em,
+    bold-title("Simon Fraser University"),
+    align(right)[#small-text("导师 Martin Ester  ·  研究方向 可解释性|机器学习")]
+  )
+
+  #timeline-item("2018-2021", small-text("计算机科学 硕士"))
+
+  #bold-title("浙江大学")
+
+  #timeline-item("2014-2018", small-text("计算机科学与技术 本科"))
+  #timeline-item("2015-2018", small-text("工业设计 双学位"))
+]
+
+= 华为工作经历
+
+#resume-item[
+  #grid(
+    columns: (1fr, 1fr),
+    gutter: 1em,
+    text(weight: "bold")[温哥华研究所安石实验室],
+    // align(right)[#text(size: 7pt)[实验室为国内数通安全网关产品线自适应安全引擎（ASE）提供预研工作]]
+  )
+]
+
+#resume-item[
+  #timeline-item("2021 - 2023", [
+    #bold-title("高性能协议栈")
+
+    #small-text("重构/优化安全网关ASE产品的用户态TCP协议栈（基于FreeBSD/fstack）")
+  ])
+
+  #timeline-item("2023", [
+    #bold-title("高性能应用层负载均衡")
+
+    #small-text("针对应用层负载均衡性能短板，实现轻量化用户态协议栈及应用层处理整合模块")
+
+    #small-text("2023年夏天在杭州完成该项目在国内产品线的部署整合，实现了吞吐性能倍增的技术目标。")
+  ])
+
+  #timeline-item("2024", [
+    #bold-title("高性能邮件代理")
+
+    #small-text("邮件代理模块实现，处理邮件的收发，病毒附件的检测摘除等。")
+
+    #small-text("2024年夏天在北京出差将该项目合并部署到国内的产品线, 实现性能3～4倍提升，超越市场上竞品的目标。")
+  ])
+
+  #timeline-item("2024", [
+    #bold-title("恶意流量AI检测")
+    #small-text("神经网络模型（轻量化小模型）的训练调优，以及时延/内存优化")
+  ])
+
+  #timeline-item("2024", [
+    #bold-title("DNS/DNS over HTTPS")
+  ])
+
+  #timeline-item("2024 - now", [
+    #bold-title("安全网关VM化")
+    #small-text("使用eBPF/XDP实现安全网关的VM化")
+  ])
+
+  #timeline-item("2025 - now", [
+    #bold-title("安全网关Packet Filter")
+    #small-text("提供NAT, conntrack, traffic shaping等功能")
+  ])
+]
+
+= 公司内部获奖情况
+
+#resume-item[
+  #timeline-item("2024", small-text[金牌团队 Gold Medal Team（高性能邮件代理项目）])
+  #timeline-item("2024", small-text[明日之星])
+  #timeline-item("2023", small-text[温哥华研究所 Director On-the-spot Award])
+  #timeline-item("2021 - 2024", small-text[金网络（小额激励）若干次])
+]
+
+= 技能
+
+#resume-item[
+  #timeline-item("编程", [
+    #small-text("C: 工作主力语言")
+
+    #small-text("Rust: 工作之外偶尔会参与一些Rust仓库的开源贡献，如Typst排版引擎（本简历便是使用Typst排版制作）")
+  ])
+
+  #timeline-item("快速学习", [
+    #small-text("安石实验室经常根据国内团队决策新增任务和需求，需要边学边做。")
+
+  ])
+
+  #timeline-item("网络问题分析", [
+    #small-text("现网问题, 抓包分析。")
+  ])
+
+  #timeline-item("程序性能优化", [
+    #small-text("perf/gdb、重构（简化、优化fastpath）、缓存优化（空间换时间）、哈希算法、内存访问优化（memory locality）、异步IO等")
+  ])
+]
+
+= 研究
+
+#resume-entry(
+  title: "Interpretable Drug Response Prediction using a Knowledge-Based Neural Network",
+  description_right: "KDD 2021",
+  date: "2021",
+  description_left: "Oliver Snow, Hossein Sharifi Noghabi, Jialin Lu, et al."
+)
+
+#resume-entry(
+  title: "Neural Disjunctive Normal Form",
+  description_right: "Master Thesis",
+  date: "2020",
+  description_left: "Jialin Lu"
+)
+
+#resume-entry(
+  title: "Revisit Recurrent Attention Model from an Active Sampling Perspective",
+  description_right: "NeurIPS Neuro↔AI Workshop",
+  date: "2019",
+  description_left: "Jialin Lu"
+)
+
+#resume-entry(
+  title: "An Active Approach for Model Interpretation",
+  description_right: "NeurIPS HCML Workshop",
+  date: "2019",
+  description_left: "Jialin Lu, Martin Ester"
+)
+
+#resume-entry(
+  title: "Checking Functional Modularity in DNN By Biclustering Task-specific Hidden Neurons",
+  description_right: "NeurIPS Neuro↔AI  Workshop",
+  date: "2019",
+  description_left: "Jialin Lu, Martin Ester"
+)
+
+// ... More publications can be added similarly ...
+
+
+#pagebreak()
+
+= 其他工作经历
+
+#resume-item[
+  #timeline-item("Jan-Apr 2021", [
+    #bold-title("Teaching Assistant")
+    #small-text("Simon Fraser University, CMPT419/726 Machine Learning · 导师 Ke Li")
+  ])
+
+  #timeline-item("May-Aug 2020", [
+    #bold-title("Teaching Assistant")
+    #small-text("Simon Fraser University, CMPT353 Computational Data Science · 导师 Greg Baker")
+  ])
+
+  #timeline-item("2019-2021", [
+    #bold-title("Research Assistant")
+    #small-text("Martin Ester's lab, Simon Fraser University")
+  ])
+
+  #timeline-item("Mar-Jun 2018", [
+    #bold-title("Teaching Assistant")
+    #small-text("浙江大学, Artificial Intelligence · 导师 Xi Li")
+  ])
+
+
+  #timeline-item("May-Aug 2018", [
+    #bold-title("Software Engineer")
+    #small-text("Zhejiang Fonda Technology Co., Ltd, Hangzhou, China")
+  ])
+
+  #timeline-item("Jun-Sep 2017", [
+    #bold-title("Research Assistant")
+    #small-text("Graphics Group, University of Hong Kong · 导师 Li-yi Wei")
+  ])
+
+  #timeline-item("Sep-Dec 2016", [
+    #bold-title("Research Assistant")
+    #small-text("StatNLP lab, Singapore University of Technology and Design · 导师 Lu Wei, Lin Shaowei")
+  ])
+
+]
+
+= 获奖情况
+
+#resume-entry(
+  title: "Graduate Fellowship",
+  description_right: "School of Computing Science, Simon Fraser University",
+  date: "2019",
+)
+
+#resume-entry(
+  title: "Leadership Enrichment and Regional Networking Programme Scholarship",
+  description_right: "Temasek Foundation International, Singapore",
+  date: "2016"
+)
+
+#resume-entry(
+  title: "Special Award on Public Responsibility",
+  description_right: "Mobile Application Innovation Contest, Tsinghua University and Apple Inc",
+  date: "2016"
+)
