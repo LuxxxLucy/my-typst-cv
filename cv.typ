@@ -20,41 +20,48 @@ M.Sc. in Computer Science — supervised by _Martin Ester_.
 
 #margin-note[2018]
 *Zhejiang University* \
-B.Eng. in Computer Science, with a dual degree in Industrial Design.
+B.Eng: Computer Science, B.Eng: Industrial Design.
 
 = Current Occupation
 
 #margin-note[2021 – now]
-*Senior Engineer, Huawei Vancouver Research Center.*
-#margin-note[
-  Selected corporate awards: \
-  Outstanding Individual, 2025 (2 of 150+ R&D) \
-  Campaign Project Hero, 2025 \
-  Gold Medal Team, 2024 (1 of 10+) \
-  Future Star, 2024
-]
+// *Senior Engineer, Huawei Vancouver Research Center.*
+*Huawei Vancouver Research Center*
+// #margin-note[
+//   Selected corporate awards: \
+//   Outstanding Individual, 2025 (top 2 of 150+ R&D) \
+//   Campaign Project Hero, 2025 \
+//   Gold Medal Team, 2024 (top 1 of 10+) \
+//   Future Star, 2024
+// ]
 
-Systems-performance engineering.
+Senior Engineer, Systems-performance engineering.
 
-Recent work: fine-tuning and inference optimization of small language models and lightweight neural networks for prompt-injection defense.
-
+Recent work: fine-tuning and inference optimization of small language models for prompt-injection defense.
 Earlier work across user-space networking, XDP/BPF, TLS, and the AI WAF.
 Contributions integrated and deployed in the
 #link("https://e.huawei.com/en/solutions/enterprise-network/security")[USG series enterprise gateway products].
 
+Selected corporate awards: \
+
+- Outstanding Individual, 2025 (top 2 of 150+ R&D personnel) \
+- Campaign Project Hero, 2025 \
+- Gold Medal Team, 2024 (top 1 of 10+) \
+- Future Star, 2024
+
 = Blog / Recent Projects
 
 I keep a blog at #link("https://luxxxlucy.github.io")[luxxxlucy.github.io] where I write up technical projects outside of my job.
-The ones most relevant here:
 
 - #link("https://luxxxlucy.github.io/assembly-as-synthesis/")[Assembly as Synthesis]
 - #link("https://luxxxlucy.github.io/vla-reward/")[Cheap (and Good) Rewards from a VLM]
 - #link("https://luxxxlucy.github.io/parametric-projection-shape-prior/")[Parametric Shape Prior for Form-Finding]
 - #link("https://luxxxlucy.github.io/realtime-vla-mac/")[Real-time VLA on MacBook] (this is ongoing)
 
-= Research
-
+#margin-note[
 See #link("https://scholar.google.com/citations?user=BeYo3C4AAAAJ&hl=en")[Google Scholar].
+]
+= Research
 
 #margin-note[KDD 2021]
 *Interpretable Drug Response Prediction using a Knowledge-Based Neural Network.*
@@ -102,10 +109,8 @@ Jialin Lu, Martin Ester.
 = Skills
 
 *Programming Languages.* C (primary), C++ (proficient with most non-fancy features). Rust — occasional open-source contributions, including to the Typst typesetting engine (this doc is typeset by Typst).
-
-*Performance Optimization.* Workflow simplification, profiling, cache/memory access patterns, scheduling.
-
-*ML* PyTorch, MLX, CUDA; training, fine-tuning, and inference optimization.
+*Performance Optimization.* all sorts of dirty tricks (mostly CPU and memory access, less on GPU)
+*ML.* PyTorch, Candle, MLX, CUDA; more on fine-tuning and inference optimization, less on training.
 
 // = Awards
 //

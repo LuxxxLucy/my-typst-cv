@@ -123,7 +123,7 @@
         #if date != none {
             text(0.7em, font: "Gill Sans")[#h(1.2em) #date]
         }
-        #v(3em)
+        #v(2em)
     ]
 }
 
