@@ -15,6 +15,10 @@
 // |                    |                |
 // +-------------------------------------+
 
+// marginalia is the margin backend: it owns the page margins and floats notes into
+// the outer margin with collision avoidance (replaces the old grid + place(right)).
+#import "@preview/marginalia:0.3.1" as marginalia: note, wideblock
+
 // Spacer so that main content and notes don't rub up against each other
 #let main-margin-space-gap = 0.7in
 
@@ -24,22 +28,28 @@
 #let main-size = 65%
 // we use margin-note-size to bleed out the column for margin.
 
-//
-// Inserts a margin note containing `content`
-//  `dy` can be used to adjust the note content vertically
-//
-#let margin-note(content) = {
-    place(
-        right,
-        dx: margin-size+main-margin-space-gap,
-        dy: +0.1em,
-        block(width: margin-size, {
-            set text(size: 0.65em, font: "Gill Sans", style: "italic")
-            set align(left)
-            content
-        })
-    )
-}
+// Shared margin typography (size/font/leading) for both note kinds.
+#let _note-text-style = (size: 0.65em, font: "Gill Sans", style: "italic")
+#let _note-par-style = (leading: 0.5em)
+
+// Sidenote number marks (style from dual-typst): a small superscript at the
+// reference point, a slightly larger one before the note in the margin.
+#let _sn-num(size, nums) = super(typographic: false, baseline: -0.5em, size: size, numbering("1", ..nums))
+#let _sn-margin-mark = (..i) => [#_sn-num(0.85em, i.pos())#h(0.4em)]
+#let _sn-anchor-mark = (..i) => _sn-num(0.7em, i.pos())
+
+// Unnumbered margin note: content floated into the outer margin by marginalia.
+#let margin-note(content) = note(counter: none, text-style: _note-text-style, par-style: _note-par-style)[#content]
+
+// Numbered side note: marginalia auto-numbers, placing the anchor mark at the call
+// site and the matching mark before the note in the margin. `dy` nudges vertically.
+#let side-note(content, dy: 0pt) = note(
+    dy: dy,
+    numbering: _sn-margin-mark,
+    anchor-numbering: _sn-anchor-mark,
+    text-style: _note-text-style,
+    par-style: _note-par-style,
+)[#content]
 
 // only enabled when "debug" is used as argument
 // such as "typst comiple <...> --input debug=on"
@@ -137,36 +147,43 @@
     name: none,
     email: none,
     date: none,
+    height: 11in,
     wrapper: apply-text-styles,
     doc,
 ) = {
-    // the page header does not
+    // `height: auto` makes one continuous tall page; the running header is
+    // dropped there since it would have nothing to repeat across.
     set page(
-        header: if title != none {
+        header: if title != none and height != auto {
             set text(size: 5pt, weight: "bold", tracking: 1.25pt, font: ("Berkeley Mono"))
             h(1fr)
             upper(title)
             v(2.5em)
         },
-        margin: (x: 8%, y: 2cm),
         width: 8.5in,
-        height: 11in
+        height: height
     )
 
-    // Set main text size to 9pt
+    // marginalia owns the margins; derive them from the old grid constants so the
+    // body and note column keep the previous widths (x: 8% page margin, 35% note
+    // column, 0.7in gap).
+    let page-margin = 8.5in * 8%
+    let note-col = (8.5in - 2 * page-margin - main-margin-space-gap) * margin-size
+    show: marginalia.setup.with(
+        inner: (far: page-margin, width: 0pt, sep: 0pt),
+        outer: (far: page-margin, width: note-col, sep: main-margin-space-gap),
+        top: 2cm,
+        bottom: 2cm,
+        book: false,
+    )
+
     set text(size: 8pt)
     show link: underline
     set math.equation(numbering: "(1)")
 
     // Show header if provided
     show_header(title, name: name, email: email, date: date)
-    grid(
-        columns: (main-size, margin-size),
-        gutter: main-margin-space-gap,
-        {
-            wrapper(doc)
-        }
-    )
+    wrapper(doc)
 }
 
 #let citet(..citation) = {

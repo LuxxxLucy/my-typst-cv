@@ -23,7 +23,7 @@ jobs:
       - uses: typst-community/setup-typst@v4
 
       - name: Compile CV
-        run: typst compile cv.typ cv.pdf
+        run: typst compile cv.typ cv.pdf --input lang=en
 
       - name: Stage site
         run: |
